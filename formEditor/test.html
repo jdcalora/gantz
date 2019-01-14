@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+</head>
+<style>
+    .wrapper{
+        width:100%;
+        display:flex;
+    }
+    .left{
+        border:1px solid blue;
+        width:70%;
+        min-height:500px;
+    }
+    .right{
+        border:1px solid black;
+        width:30%;
+        min-height:500px;
+    }
+    /* Style the tab */
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+    }
+
+    /* Style the buttons inside the tab */
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+      font-size: 17px;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+      background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+      background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+    .form_row{
+        height:50px;
+        width:100%;
+        display:block;
+    }
+    .form-container{        
+        border:1px dashed #afafaf;
+        height:100%;
+        width:100%;
+        position:relative;
+        z-index:1;
+    }
+    .controls{
+        border:1px solid black;
+        position:relative;
+        right:0px;
+        top:0px;
+        z-index:9;
+    }
+    .controls i{
+/*        border:1px solid black;*/
+        float:right;
+        padding:5px;
+    }
+    .controls i:hover{
+/*        border:5px solid black;*/
+        color:red;
+        cursor:pointer;
+    }
+</style>
+<body>
+<input type="text" id="activeElement" disabled onchange="test()">
+<div class="wrapper">
+    <div class="left">       
+<!--
+       <div class="form_row">
+           <div class="controls"><i class="fas fa-trash-alt"></i><i class="fas fa-edit"></i></div>
+           <div class="form-container"></div>
+       </div>
+-->
+       <button class="row" onclick="addRow();openTab(event, 'properties');setActive('propertiestab');">Add Row</button>
+    </div>
+    <div class="right">
+        <div class="tab">
+          <button class="tablinks" id="elementstab" onclick="openTab(event, 'elements')">Elements</button>
+          <button class="tablinks" id="propertiestab" onclick="openTab(event, 'properties')">Properties</button>
+        </div>
+
+        <div id="elements" class="tabcontent">
+            asdasd
+        </div>
+
+        <div id="properties" class="tabcontent">
+          <h4>Object Properties</h4>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+var zxc = document.getElementById("activeElement");
+zxc.addEventListener("click", function(){ alert("Hello World!"); });
+function openTab(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+function setActive(tab) {
+  var element = document.getElementById(tab);
+  element.classList.add("active");
+}
+    ////////////    Add Rows
+var row = 1;
+function addRow(){
+    var addBtn = '<button class="row" onclick="addRow();openTab(event, \'properties\');setActive(\'propertiestab\');">Add Row</button>';
+    var get = document.querySelector(".left").innerHTML;
+    var addRow = get.replace(addBtn, "") + '<div class="form_row" id="row'+row+'" >' +
+    '<div class="controls">' +
+    '<i class="fas fa-trash-alt" onclick="deleteRow(\'' + "row" + row + '\')" title="delete"></i>' +
+    '<i class="fas fa-edit" title="edit"></i>' +
+    '<i class="fas fa-plus-circle" opclick="setActive("propertiestab");"></i></div>' +
+    '<div class="form-container"></div>' +
+    '</div>' + addBtn;
+    document.querySelector(".left").innerHTML = addRow;
+    setElement("row" + row);
+    row = row + 1;
+//    alert(row);
+}
+function deleteRow(elements){
+//    alert(elements);
+    var element = document.getElementById(elements);
+    element.parentNode.removeChild(element);
+    var get = document.querySelector(".left").innerHTML;
+//    var deleteRow = get.replace(document.getElementById(elements).innerHTML, "");
+//    document.querySelector(".left").innerHTML = deleteRow;
+}
+function setElement(x){
+//    alert(x);
+    document.getElementById("activeElement").value = x;
+}
+function test(){
+    alert("works");
+}
+</script>
